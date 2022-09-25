@@ -1,14 +1,11 @@
 package com.example.university.dao;
 
-import com.example.university.PersistenceJPAConfig;
 import com.example.university.business.UniversityService;
 import com.example.university.domain.Course;
 import com.example.university.domain.Staff;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
@@ -18,8 +15,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * Tests that query by one attribute
  */
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = { PersistenceJPAConfig.class })
+
+@SpringBootTest
 public class FindByOneAttribute {
 
     @Autowired

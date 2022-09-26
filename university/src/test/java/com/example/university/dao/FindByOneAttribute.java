@@ -45,7 +45,7 @@ public class FindByOneAttribute {
                 .forEach(s -> assertTrue(s.getAttendee().getLastName().equals("King")));
 
 
-        List<Course> allCourses = courseDao.findAll();
+        List<Course> allCourses = universityService.findAllCourses();
         Course firstCourse = allCourses.get(0);
 
         assertEquals(firstCourse, courseDao.findByName(firstCourse.getName()).get());

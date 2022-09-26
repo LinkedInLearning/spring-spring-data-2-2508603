@@ -31,7 +31,7 @@ public class FindByClausesAndExpressions {
     public void findByClausesAndExpressions() {
         // Test Create
         UniversityFactory.fillUniversity(universityService);
-        List<Student> students = studentDao.findAll();
+        List<Student> students = universityService.findAllStudents();
         Student firstStudent = students.get(0);
 
         assertTrue(studentDao.findOldest().get().getAge() == 22);

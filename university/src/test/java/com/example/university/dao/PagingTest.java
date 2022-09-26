@@ -27,7 +27,7 @@ class PagingTest {
     @Test
     void findPage() {
         UniversityFactory.fillUniversity(universityService);
-        List<Staff> allStaff = staffDao.findAll();
+        List<Staff> allStaff = universityService.findAllStaff();
         Staff firstStaff = allStaff.get(0);
         List<Staff> staffPage = staffDao.find(1, 5);
         assertTrue(staffPage.get(0).getMember().getLastName().compareTo(staffPage.get(1).getMember().getLastName()) < 0);

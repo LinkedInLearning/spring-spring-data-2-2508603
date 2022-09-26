@@ -36,7 +36,7 @@ public class SimpleDBCrudTest {
         // Test Create
         UniversityFactory.fillUniversity(universityService);
         //Test FindA ll
-        List<Staff> allStaff = staffDao.findAll();
+        List<Staff> allStaff = universityService.findAllStaff();
         int totalStaff = allStaff.size();
         allStaff.stream().forEach(System.out::println);
         assertEquals(11,  allStaff.size());

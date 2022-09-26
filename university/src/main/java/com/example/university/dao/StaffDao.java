@@ -7,7 +7,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 import java.util.List;
-import java.util.Optional;
 /**
  * Data Access Object Class for the Staff Entity.
  * Uses only javax.persistence libraries.
@@ -19,34 +18,6 @@ public class StaffDao {
     public StaffDao(EntityManagerFactory emf) {
         this.em = emf.createEntityManager();
     }
-
-    public List<Staff> findAll() {
-        return em.createQuery("from Staff").getResultList();
-    }
-    public Optional<Staff> findById(int id){
-        return Optional.ofNullable(em.find(Staff.class, id));
-    }
-
-    public Staff save(Staff staff) {
-        em.getTransaction().begin();
-        em.persist(staff);
-        em.getTransaction().commit();
-        return staff;
-    }
-
-    public void delete(Staff staff){
-        em.getTransaction().begin();
-        em.remove(staff);
-        em.getTransaction().commit();
-    }
-
-
-    public void deleteAll() {
-        em.getTransaction().begin();
-        em.createQuery("DELETE FROM Staff").executeUpdate();
-        em.getTransaction().commit();
-    }
-
 
     public List<Staff> findByLastName(String lastName) {
         TypedQuery<Staff> query = em.createQuery(

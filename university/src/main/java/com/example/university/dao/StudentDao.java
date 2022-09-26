@@ -19,30 +19,7 @@ public class StudentDao {
     public StudentDao(EntityManagerFactory emf) {
         this.em = emf.createEntityManager();
     }
-    public List<Student> findAll() {
-        return em.createQuery("from Student").getResultList();
-    }
-    public Optional<Student> findById(int id){
-        return Optional.ofNullable(em.find(Student.class, id));
-    }
-
-    public Student save(Student student) {
-        em.getTransaction().begin();
-        em.persist(student);
-        em.getTransaction().commit();
-        return student;
-    }
-
-    public void delete(Student student){
-        em.remove(student);
-    }
-
-    public void deleteAll() {
-        em.getTransaction().begin();
-        em.createQuery("DELETE FROM Student").executeUpdate();
-        em.getTransaction().commit();
-    }
-    List<Student> findByFullTime(boolean fullTime){
+     List<Student> findByFullTime(boolean fullTime){
         TypedQuery<Student> query = em.createQuery(
                 "SELECT s FROM Student s WHERE s.fullTime = :fullTime" , Student.class);
         return query.setParameter("fullTime", fullTime).getResultList();

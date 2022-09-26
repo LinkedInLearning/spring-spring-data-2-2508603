@@ -22,37 +22,6 @@ public class CourseDao {
         this.em = emf.createEntityManager();
     }
 
-    public List<Course> findAll() {
-        return em.createQuery("from Course").getResultList();
-    }
-
-    public Optional<Course> findById(int id) {
-        return Optional.ofNullable(em.find(Course.class, id));
-    }
-
-    public Course save(Course course) {
-
-        em.getTransaction().begin();
-        em.persist(course);
-        em.getTransaction().commit();
-        return course;
-    }
-
-    public void delete(Course course) {
-
-        em.getTransaction().begin();
-        em.remove(course);
-        em.flush();
-        em.getTransaction().commit();
-    }
-
-
-    public void deleteAll() {
-        em.getTransaction().begin();
-        em.createQuery("DELETE FROM Course").executeUpdate();
-        em.getTransaction().commit();
-    }
-
     public Optional<Course> findByName(String name) {
         TypedQuery<Course> query = em.createQuery(
                 "SELECT c FROM Course c WHERE c.name = :name", Course.class);

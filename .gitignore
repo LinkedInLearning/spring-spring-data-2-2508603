@@ -4,3 +4,5 @@ node_modules
 npm-debug.log
 /university/.idea/
 /university/university.iml
+/.idea/
+/university/target/

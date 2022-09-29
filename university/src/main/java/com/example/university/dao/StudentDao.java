@@ -19,32 +19,28 @@ public class StudentDao {
     public StudentDao(EntityManagerFactory emf) {
         this.em = emf.createEntityManager();
     }
-     List<Student> findByFullTime(boolean fullTime){
+
+    //Simple Query By Attribute
+     public List<Student> findByFullTime(boolean fullTime){
         TypedQuery<Student> query = em.createQuery(
                 "SELECT s FROM Student s WHERE s.fullTime = :fullTime" , Student.class);
         return query.setParameter("fullTime", fullTime).getResultList();
     }
 
-    List<Student> findByAge(Integer age) {
+    public List<Student> findByAge(Integer age) {
         TypedQuery<Student> query = em.createQuery(
                 "SELECT s FROM Student s WHERE s.age = :age" , Student.class);
         return query.setParameter("age", age).getResultList();
     }
 
-    List<Student> findByLastName(String lastName){
-        TypedQuery<Student> query = em.createQuery(
-                "SELECT s FROM Student s WHERE s.attendee.lastName = :lastName" , Student.class);
-        return query.setParameter("lastName", lastName).getResultList();
-    }
-
-
-    Optional<Student> findOldest() {
+    //Queries with clauses and expressions
+    public Optional<Student> findOldest() {
         TypedQuery<Student> query = em.createQuery(
                 "SELECT s FROM Student s ORDER BY age DESC" , Student.class);
         return Optional.ofNullable(query.setMaxResults(1).getSingleResult());
     }
 
-    List<Student> findByFirstAndLastName(String firstName, String lastName){
+    public List<Student> findByFirstAndLastName(String firstName, String lastName){
         TypedQuery<Student> query = em.createQuery(
                 "SELECT s FROM Student s WHERE s.attendee.firstName = :firstName and s.attendee.lastName = :lastName" , Student.class);
         return query.setParameter("firstName", firstName)
@@ -52,29 +48,36 @@ public class StudentDao {
                 .getResultList();
     }
 
-    List<Student> findByAgeLessThan(int age) {
+    public List<Student> findByAgeLessThan(int age) {
         TypedQuery<Student> query = em.createQuery(
                 "SELECT s FROM Student s where s.age < :age" , Student.class);
         return query.setParameter("age", age)
                 .getResultList();
     }
 
-    List<Student> findSimilarLastName(String nameCriteria) {
+    public List<Student> findSimilarLastName(String nameCriteria) {
         TypedQuery<Student> query = em.createQuery(
                 "SELECT s FROM Student s where s.attendee.lastName like :nameCriteria" , Student.class);
         return query.setParameter("nameCriteria", nameCriteria)
                 .getResultList();
     }
 
-    Optional<Student> findFirstInAlphabet(){
+    public Optional<Student> findFirstInAlphabet(){
         TypedQuery<Student> query = em.createQuery(
                 "Select s FROM Student  s ORDER BY  s.attendee.lastName ASC" , Student.class);
         return Optional.ofNullable(query.setMaxResults(1).getSingleResult());
     }
 
-    List<Student> find3Oldest() {
+    public List<Student> find3Oldest() {
         TypedQuery<Student> query = em.createQuery(
                 "SELECT s FROM Student s ORDER BY age DESC" , Student.class);
         return query.setMaxResults(3).getResultList();
+    }
+
+    //Query by nested attribute
+    List<Student> findByLastName(String lastName){
+        TypedQuery<Student> query = em.createQuery(
+                "SELECT s FROM Student s WHERE s.attendee.lastName = :lastName" , Student.class);
+        return query.setParameter("lastName", lastName).getResultList();
     }
 }

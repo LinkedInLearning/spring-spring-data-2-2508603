@@ -20,6 +20,7 @@ public class DepartmentDao {
         this.em = emf.createEntityManager();
     }
 
+    //Query By Simple Attribute
     public Optional<Department> findByName(String name) {
         TypedQuery<Department> query = em.createQuery(
                 "SELECT d FROM Department d WHERE d.name = :name", Department.class);

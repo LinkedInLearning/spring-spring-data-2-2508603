@@ -53,7 +53,7 @@ public class FindByOneAttribute {
 
         Course courseWithPrerequisites = allCourses.stream().filter(x->x.getPrerequisites().size() > 0).findFirst().get();
         Integer prerequisiteId = courseWithPrerequisites.getPrerequisites().get(0).getId();
-        assertTrue(courseDao.findCourseByPrerequisite(prerequisiteId).contains(courseWithPrerequisites));
+        assertTrue(courseDao.findCourseByPrerequisites(prerequisiteId).contains(courseWithPrerequisites));
 
         courseDao.findByCredits(3).stream().forEach(x-> assertEquals(3, x.getCredits()));
     }

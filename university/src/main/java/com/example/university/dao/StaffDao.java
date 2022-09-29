@@ -19,12 +19,14 @@ public class StaffDao {
         this.em = emf.createEntityManager();
     }
 
+    //Query by nested attribute
     public List<Staff> findByLastName(String lastName) {
         TypedQuery<Staff> query = em.createQuery(
                 "SELECT s FROM Staff s WHERE s.member.lastName = :lastName", Staff.class);
         return query.setParameter("lastName", lastName).getResultList();
     }
 
+    //Query for a subset of results
     public List<Staff> find(int pageNumber, int pageSize){
         TypedQuery<Staff> query = em.createQuery(
                 "SELECT s FROM Staff s ORDER by s.member.lastName ASC", Staff.class);

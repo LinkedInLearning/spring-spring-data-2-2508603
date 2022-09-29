@@ -22,19 +22,14 @@ public class CourseDao {
         this.em = emf.createEntityManager();
     }
 
+    //Query By Simple Attribute
     public Optional<Course> findByName(String name) {
         TypedQuery<Course> query = em.createQuery(
                 "SELECT c FROM Course c WHERE c.name = :name", Course.class);
         return Optional.ofNullable(query.setParameter("name", name).getSingleResult());
     }
 
-    public List<Course> findByChairLastName(String chair) {
-        TypedQuery<Course> query = em.createQuery(
-                "SELECT c FROM Course c WHERE c.department.chair.member.lastName = :chair", Course.class);
-        return query.setParameter("chair", chair).getResultList();
-    }
-
-    public List<Course> findCourseByPrerequisite(int id) {
+    public List<Course> findCourseByPrerequisites(int id) {
         TypedQuery<Course> query = em.createQuery(
                 "Select c from Course c join c.prerequisites p where p.id = ?1", Course.class);
         return query.setParameter(1, id).getResultList();
@@ -46,6 +41,14 @@ public class CourseDao {
         return query.setParameter("credits", credits).getResultList();
     }
 
+    //Query from joined table field
+    public List<Course> findByChairLastName(String chair) {
+        TypedQuery<Course> query = em.createQuery(
+                "SELECT c FROM Course c WHERE c.department.chair.member.lastName = :chair", Course.class);
+        return query.setParameter("chair", chair).getResultList();
+    }
+
+    //Dynamic Query by various attributes
     public List<Course> findByCriteria(CriteriaQuery<Course> criteria){
         return em.createQuery(criteria).getResultList();
     }

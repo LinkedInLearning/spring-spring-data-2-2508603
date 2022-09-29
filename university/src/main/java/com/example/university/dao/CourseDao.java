@@ -29,7 +29,7 @@ public class CourseDao {
         return Optional.ofNullable(query.setParameter("name", name).getSingleResult());
     }
 
-    public List<Course> findCourseByPrerequisites(int id) {
+    public List<Course> findByPrerequisites(int id) {
         TypedQuery<Course> query = em.createQuery(
                 "Select c from Course c join c.prerequisites p where p.id = ?1", Course.class);
         return query.setParameter(1, id).getResultList();

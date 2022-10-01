@@ -5,10 +5,8 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Data Access Object Class for the Course Entity.
@@ -20,32 +18,6 @@ public class CourseDao {
 
     public CourseDao(EntityManagerFactory emf) {
         this.em = emf.createEntityManager();
-    }
-
-    //Query By Simple Attribute
-    public Optional<Course> findByName(String name) {
-        TypedQuery<Course> query = em.createQuery(
-                "SELECT c FROM Course c WHERE c.name = :name", Course.class);
-        return Optional.ofNullable(query.setParameter("name", name).getSingleResult());
-    }
-
-    public List<Course> findByPrerequisites(Course course) {
-        TypedQuery<Course> query = em.createQuery(
-                "Select c from Course c join c.prerequisites p where p.id = ?1", Course.class);
-        return query.setParameter(1, course.getId()).getResultList();
-    }
-
-    public List<Course> findByCredits(int credits) {
-        TypedQuery<Course> query = em.createQuery(
-                "SELECT c FROM Course c WHERE c.credits = :credits", Course.class);
-        return query.setParameter("credits", credits).getResultList();
-    }
-
-    //Query from joined table field
-    public List<Course> findByChairLastName(String chair) {
-        TypedQuery<Course> query = em.createQuery(
-                "SELECT c FROM Course c WHERE c.department.chair.member.lastName = :chair", Course.class);
-        return query.setParameter("chair", chair).getResultList();
     }
 
     //Dynamic Query by various attributes

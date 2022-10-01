@@ -20,6 +20,26 @@ public class StudentDao {
         this.em = emf.createEntityManager();
     }
 
+    //Simple Query By Attribute
+     public List<Student> findByFullTime(boolean fullTime){
+        TypedQuery<Student> query = em.createQuery(
+                "SELECT s FROM Student s WHERE s.fullTime = :fullTime" , Student.class);
+        return query.setParameter("fullTime", fullTime).getResultList();
+    }
+
+    public List<Student> findByAge(Integer age) {
+        TypedQuery<Student> query = em.createQuery(
+                "SELECT s FROM Student s WHERE s.age = :age" , Student.class);
+        return query.setParameter("age", age).getResultList();
+    }
+
+    //Query by nested attribute
+    List<Student> findByLastName(String lastName){
+        TypedQuery<Student> query = em.createQuery(
+                "SELECT s FROM Student s WHERE s.attendee.lastName = :lastName" , Student.class);
+        return query.setParameter("lastName", lastName).getResultList();
+    }
+
     //Queries with clauses and expressions
     public Optional<Student> findOldest() {
         TypedQuery<Student> query = em.createQuery(
@@ -59,12 +79,5 @@ public class StudentDao {
         TypedQuery<Student> query = em.createQuery(
                 "SELECT s FROM Student s ORDER BY age DESC" , Student.class);
         return query.setMaxResults(3).getResultList();
-    }
-
-    //Query by nested attribute
-    List<Student> findByLastName(String lastName){
-        TypedQuery<Student> query = em.createQuery(
-                "SELECT s FROM Student s WHERE s.attendee.lastName = :lastName" , Student.class);
-        return query.setParameter("lastName", lastName).getResultList();
     }
 }

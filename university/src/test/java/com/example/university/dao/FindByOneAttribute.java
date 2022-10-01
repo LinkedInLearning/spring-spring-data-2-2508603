@@ -25,13 +25,7 @@ public class FindByOneAttribute {
     private UniversityService universityService;
 
     @Autowired
-    private StudentDao studentDao;
-
-    @Autowired
     private StudentRepo studentRepo;
-
-    @Autowired
-    private CourseDao courseDao;
 
     @Autowired
     private CourseRepo courseRepo;
@@ -46,7 +40,7 @@ public class FindByOneAttribute {
 
         studentRepo.findByAge(20).stream().forEach(student -> assertTrue(student.getAge() == 20));
 
-        studentDao.findByLastName("King").stream()
+        studentRepo.findByAttendeeLastName("King").stream()
                 .forEach(s -> assertTrue(s.getAttendee().getLastName().equals("King")));
 
 

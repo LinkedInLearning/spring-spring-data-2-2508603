@@ -2,6 +2,7 @@ package com.example.university.dao;
 
 import com.example.university.business.UniversityService;
 import com.example.university.domain.Student;
+import com.example.university.repo.StudentRepo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,7 +23,7 @@ public class FindByClausesAndExpressions {
     private UniversityService universityService;
 
     @Autowired
-    private StudentDao studentDao;
+    private StudentRepo studentRepo;
 
     @Test
     public void findByClausesAndExpressions() {
@@ -31,19 +32,19 @@ public class FindByClausesAndExpressions {
         List<Student> students = universityService.findAllStudents();
         Student firstStudent = students.get(0);
 
-        assertTrue(studentDao.findOldest().get().getAge() == 22);
+        assertTrue(studentRepo.findTopByOrderByAgeDesc().get().getAge() == 22);
 
-        assertEquals(firstStudent, studentDao.findByFirstAndLastName(firstStudent.getAttendee().getFirstName(),
+        assertEquals(firstStudent, studentRepo.findByAttendeeFirstNameAndAttendeeLastName(firstStudent.getAttendee().getFirstName(),
                 firstStudent.getAttendee().getLastName()).get(0));
 
-        studentDao.findByAgeLessThan(20).stream().forEach(s-> assertTrue(s.getAge() < 20));
+        studentRepo.findByAgeLessThan(20).stream().forEach(s-> assertTrue(s.getAge() < 20));
 
-        studentDao.findSimilarLastName("%o%")
+        studentRepo.findByAttendeeLastNameLike("%o%")
                 .stream().forEach(s->assertTrue(s.getAttendee().getLastName().contains("o")));
 
-        assertTrue(studentDao.findFirstInAlphabet().get().getAttendee().getLastName().equals("Doe"));
+        assertTrue(studentRepo.findFirstByOrderByAttendeeLastNameAsc().get().getAttendee().getLastName().equals("Doe"));
 
-        List<Student> students3 = studentDao.find3Oldest();
+        List<Student> students3 = studentRepo.findTop3ByOrderByAgeDesc();
         assertTrue(students3.size() == 3);
         students3.stream().forEach(s -> assertTrue(s.getAge() != 18));
     }

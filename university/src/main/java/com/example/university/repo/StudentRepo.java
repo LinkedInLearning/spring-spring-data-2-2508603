@@ -23,4 +23,16 @@ import java.util.Optional;
      Optional<Student> findFirstByOrderByAttendeeLastNameAsc();
 
      List<Student> findTop3ByOrderByAgeDesc() ;
-}
+
+     /**
+      * Copy/paste bank for Native queries
+      findOldest() naitve
+      SELECT * FROM student s ORDER BY s.age DESC LIMIT 1
+
+      findFirstInAlphabet
+      SELECT * FROM STUDENT s ORDER BY s.Last_Name ASC LIMIT
+
+      find3Oldest
+      SELECT * FROM STUDENT s ORDER BY s.age DESC LIMIT 3
+      **/
+ }

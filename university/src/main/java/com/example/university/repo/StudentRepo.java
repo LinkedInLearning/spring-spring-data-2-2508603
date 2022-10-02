@@ -2,6 +2,8 @@ package com.example.university.repo;
 
 import com.example.university.domain.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,27 +14,20 @@ import java.util.Optional;
     List<Student> findByAttendeeLastName(String lastName);
 
     //Queries with clauses and expressions
-     Optional<Student> findTopByOrderByAgeDesc();
+    @Query(value="SELECT * FROM student s ORDER BY s.age DESC LIMIT 1", nativeQuery=true)
+    Optional<Student> findOldest();
 
-     List<Student> findByAttendeeFirstNameAndAttendeeLastName(String firstName, String lastName);
+    @Query("SELECT s FROM Student s WHERE s.attendee.firstName = :firstName and s.attendee.lastName = :lastName")
+     List<Student> findByFirstAndLastName(@Param("firstName")String firstName, @Param("lastName")String lastName);
 
-     List<Student> findByAgeLessThan(int age) ;
+     List<Student> findByAgeLessThan(int age);
 
-     List<Student> findByAttendeeLastNameLike(String nameCriteria);
+     @Query("SELECT s FROM Student s where s.attendee.lastName like ?1")
+     List<Student> findBySimilarLastName(String nameCriteria);
 
-     Optional<Student> findFirstByOrderByAttendeeLastNameAsc();
+     @Query(value="SELECT * FROM STUDENT s ORDER BY s.last_Name ASC LIMIT 1", nativeQuery=true)
+     Optional<Student> findFirstInAlphabet();
 
-     List<Student> findTop3ByOrderByAgeDesc() ;
-
-     /**
-      * Copy/paste bank for Native queries
-      findOldest() naitve
-      SELECT * FROM student s ORDER BY s.age DESC LIMIT 1
-
-      findFirstInAlphabet
-      SELECT * FROM STUDENT s ORDER BY s.Last_Name ASC LIMIT
-
-      find3Oldest
-      SELECT * FROM STUDENT s ORDER BY s.age DESC LIMIT 3
-      **/
+     @Query(value="SELECT * FROM STUDENT s  ORDER BY s.age DESC LIMIT 3", nativeQuery=true)
+     List<Student> find3Oldest() ;
  }

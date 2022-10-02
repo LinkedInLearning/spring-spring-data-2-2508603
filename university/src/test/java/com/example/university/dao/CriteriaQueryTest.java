@@ -4,6 +4,8 @@ import com.example.university.business.DynamicQueryService;
 import com.example.university.business.UniversityService;
 import com.example.university.domain.Department;
 import com.example.university.domain.Staff;
+import com.example.university.repo.DepartmentRepo;
+import com.example.university.repo.StaffRepo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,15 +26,15 @@ public class CriteriaQueryTest {
     @Autowired
     private UniversityService universityService;
     @Autowired
-    private DepartmentDao departmentDao;
+    private DepartmentRepo departmentRepo;
     @Autowired
-    private StaffDao staffDao;
+    private StaffRepo staffRepo;
 
     @Test
     void findByCriteria() {
         UniversityFactory.fillUniversity(universityService);
-        Optional<Department> humanities = departmentDao.findByName("Humanities");
-        Optional<Staff> black = staffDao.findByLastName("Black").stream().findFirst();
+        Optional<Department> humanities = departmentRepo.findByName("Humanities");
+        Optional<Staff> black = staffRepo.findByLastName("Black").stream().findFirst();
 
         System.out.println('\n' + "*** All Humanities Courses");
         queryService.findCoursesByCriteria(humanities, empty(), empty())

@@ -2,8 +2,6 @@ package com.example.university.business;
 
 import com.example.university.dao.CourseDao;
 import com.example.university.domain.Course;
-import com.example.university.domain.Department;
-import com.example.university.domain.Staff;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -14,7 +12,6 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DynamicQueryService {
@@ -30,19 +27,19 @@ public class DynamicQueryService {
         this.em = emf.createEntityManager();
     }
 
-    public List<Course> findCoursesByCriteria(Optional<Department> department, Optional<Integer> credits,
-                                              Optional<Staff> instructor) {
+    public List<Course> findCoursesByCriteria(CourseFilter filter) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Course> cq = cb.createQuery(Course.class);
         Root<Course> root = cq.from(Course.class);
         List<Predicate> predicates = new ArrayList<>();
-        department.ifPresent(d ->
+        filter.getDepartment().ifPresent(d ->
                 predicates.add(cb.equal(root.get("department"), d)));
-        credits.ifPresent(c ->
+        filter.getCredits().ifPresent(c ->
                 predicates.add(cb.equal(root.get("credits"), c)));
-        instructor.ifPresent(i ->
+        filter.getInstructor().ifPresent(i ->
                 predicates.add(cb.equal(root.get("instructor"), i)));
         cq.select(root).where(predicates.toArray(new Predicate[predicates.size()]));
         return courseDao.findByCriteria(cq);
     }
+
 }

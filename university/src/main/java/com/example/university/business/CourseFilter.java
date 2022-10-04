@@ -5,6 +5,9 @@ import com.example.university.domain.Staff;
 
 import java.util.Optional;
 
+/**
+ * Helper class to filter courses in the Dynamic Query Service
+ */
 public class CourseFilter {
     private Optional<Department> department = Optional.empty();
     private Optional<Integer> credits = Optional.empty();

@@ -1,5 +1,6 @@
 package com.example.university.dao;
 
+import com.example.university.business.CourseFilter;
 import com.example.university.business.DynamicQueryService;
 import com.example.university.business.UniversityService;
 import com.example.university.domain.Department;
@@ -10,10 +11,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Optional;
-
-import static java.util.Optional.empty;
-import static java.util.Optional.of;
+import static com.example.university.business.CourseFilter.filterBy;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test Criteria-based queries
@@ -33,23 +32,33 @@ public class CriteriaQueryTest {
     @Test
     void findByCriteria() {
         UniversityFactory.fillUniversity(universityService);
-        Optional<Department> humanities = departmentRepo.findByName("Humanities");
-        Optional<Staff> black = staffRepo.findByLastName("Black").stream().findFirst();
+        Department humanities = departmentRepo.findByName("Humanities").get();
+        Staff professorBlack = staffRepo.findByLastName("Black").stream().findFirst().get();
 
         System.out.println('\n' + "*** All Humanities Courses");
-        queryService.findCoursesByCriteria(humanities, empty(), empty())
-                .stream().forEach(System.out::println);
+        queryAndVerify(filterBy().department(humanities));
 
         System.out.println('\n' + "*** 4 credit courses");
-        queryService.findCoursesByCriteria(empty(), of(4), empty())
-                .stream().forEach(System.out::println);
+        queryAndVerify(filterBy().credits(4));
 
         System.out.println('\n' + "*** Courses taught by Professor Black");
-        queryService.findCoursesByCriteria(empty(), empty(), black)
-                .stream().forEach(System.out::println);
+        queryAndVerify(filterBy().instructor(professorBlack));
 
         System.out.println('\n' + "*** Courses In Humanties, taught by Professor Black, 4 credits");
-        queryService.findCoursesByCriteria(humanities, of(4), black)
-                .stream().forEach(System.out::println);
+        queryAndVerify(filterBy()
+                .department(humanities)
+                .credits(4)
+                .instructor(professorBlack));
+    }
+
+
+    private void queryAndVerify(CourseFilter filter) {
+        queryService.findCoursesByCriteria(filter)
+                .forEach(course -> {
+                    filter.getInstructor().ifPresent(i -> assertEquals(i, course.getInstructor()));
+                    filter.getCredits().ifPresent(c -> assertEquals(c, course.getCredits()));
+                    filter.getDepartment().ifPresent(prof -> assertEquals(prof, course.getDepartment()));
+                    System.out.println(course);
+                });
     }
 }

@@ -2,6 +2,7 @@ package com.example.university.business;
 
 import com.example.university.domain.Course;
 import com.example.university.repo.CourseRepo;
+import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,13 @@ public class DynamicQueryService {
                     return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
                 };
         return courseRepo.findAll(courseSpecification);
+    }
+    public List<Course> findByExample(CourseFilter filter){
+        Course course = new Course(null,
+                filter.getCredits().orElse(null),
+                filter.getInstructor().orElse(null),
+                filter.getDepartment().orElse(null));
+        return courseRepo.findAll(Example.of(course));
     }
 
 

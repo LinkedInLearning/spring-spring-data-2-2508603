@@ -52,7 +52,7 @@ public class CriteriaQueryTest {
     }
 
     private void queryAndVerify(CourseFilter filter) {
-        queryService.filterBySpecification(filter)
+        queryService.findByExample(filter)
                 .forEach(course -> {
                     filter.getInstructor().ifPresent(i -> assertEquals(i, course.getInstructor()));
                     filter.getCredits().ifPresent(c -> assertEquals(c, course.getCredits()));

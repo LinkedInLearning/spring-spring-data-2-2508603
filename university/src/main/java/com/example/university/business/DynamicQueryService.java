@@ -2,7 +2,6 @@ package com.example.university.business;
 
 import com.example.university.domain.Course;
 import com.example.university.repo.CourseRepo;
-import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -20,18 +19,7 @@ public class DynamicQueryService {
     }
 
     public List<Course> filterBySpecification(CourseFilter filter) {
-        Specification<Course> courseSpecification =
-                (root, query, criteriaBuilder) -> {
-                    List<Predicate> predicates = new ArrayList<>();
-                    filter.getDepartment().ifPresent(d ->
-                            predicates.add(criteriaBuilder.equal(root.get("department"), d)));
-                    filter.getCredits().ifPresent(c ->
-                            predicates.add(criteriaBuilder.equal(root.get("credits"), c)));
-                    filter.getInstructor().ifPresent(i ->
-                            predicates.add(criteriaBuilder.equal(root.get("instructor"), i)));
-                    return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
-                };
-        return courseRepo.findAll(courseSpecification);
+        return courseRepo.findAll(filter.getSpecification());
     }
     public List<Course> findByExample(CourseFilter filter){
         Course course = new Course(null,

@@ -19,9 +19,6 @@ public class DynamicQueryService {
         return courseRepo.findAll(filter.getSpecification());
     }
 
-    public List<Course> findByExample(CourseFilter filter){
-        return courseRepo.findAll(filter.getExampleProbe());
-    }
 
 
 }

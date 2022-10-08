@@ -60,4 +60,13 @@ public class CourseFilter {
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
     }
+    /*
+    public com.querydsl.core.types.Predicate getQueryDslPredicate() {
+        BooleanBuilder predicate = new BooleanBuilder();
+        department.ifPresent(d -> predicate.and(course.department.eq(d)));
+        credits.ifPresent(c -> predicate.and(course.credits.eq(c)));
+        instructor.ifPresent(i -> predicate.and(course.instructor.eq(i)));
+        return predicate;
+    }
+     */
 }

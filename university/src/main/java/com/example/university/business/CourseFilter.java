@@ -1,8 +1,14 @@
 package com.example.university.business;
 
+import com.example.university.domain.Course;
 import com.example.university.domain.Department;
 import com.example.university.domain.Staff;
+import org.springframework.data.domain.Example;
+import org.springframework.data.jpa.domain.Specification;
 
+import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -41,5 +47,26 @@ public class CourseFilter {
 
     public Optional<Staff> getInstructor() {
         return instructor;
+    }
+
+    public Specification<Course> getSpecification() {
+        return (root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            department.ifPresent(d ->
+                    predicates.add(criteriaBuilder.equal(root.get("department"), d)));
+            credits.ifPresent(c ->
+                    predicates.add(criteriaBuilder.equal(root.get("credits"), c)));
+            instructor.ifPresent(i ->
+                    predicates.add(criteriaBuilder.equal(root.get("instructor"), i)));
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        };
+    }
+
+    public Example<Course> getExampleProbe(){
+        Course course = new Course(null,
+                credits.orElse(null),
+                instructor.orElse(null),
+                department.orElse(null));
+        return Example.of(course);
     }
 }

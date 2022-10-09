@@ -15,6 +15,7 @@ import org.springframework.data.domain.Example;
 
 import static com.example.university.business.CourseFilter.filterBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.data.domain.ExampleMatcher.matching;
 
 /**
  * Test Criteria-based queries
@@ -35,9 +36,13 @@ public class CriteriaQueryTest {
     void findByCriteria() {
         UniversityFactory.fillUniversity(universityService);
         Department humanities = departmentRepo
-                .findAll(Example.of(new Department("Humanities",null))).stream().findFirst().get();
+                .findAll(Example.of(new Department("Humanities",null),
+                        matching().withIgnoreCase()
+                )).stream().findFirst().get();
         Staff professorBlack = staffRepo
-                .findAll(Example.of(new Staff(new Person(null,"Black")))).stream().findFirst().get();
+                .findAll(Example.of(new Staff(new Person(null,"Black")),
+                        matching().withIgnoreCase()
+                )).stream().findFirst().get();
 
         System.out.println('\n' + "*** All Humanities Courses");
         queryAndVerify(filterBy().department(humanities));

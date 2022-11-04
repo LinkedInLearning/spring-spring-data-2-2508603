@@ -1,14 +1,21 @@
 package com.example.university.repo;
 
 import com.example.university.domain.Staff;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import org.springframework.data.mongodb.repository.Query;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
 
-public interface StaffRepo extends JpaRepository<Staff, Integer> {
+/**
+ * DataSource Management for the Staff at the University.
+ * <p>
+ * Created by maryellenbowman.
+ */
+public interface StaffRepo extends PagingAndSortingRepository<Staff, Integer> {
 
-    @Query("SELECT s FROM Staff s WHERE s.member.lastName = :lastName")
-    List<Staff> findByLastName(@Param("lastName") String lastName);
+    List<Staff> findByMemberLastName(String lastName);
+
+    @Query("{ 'member.firstName' : ?0 }")
+    List<Staff> findByFirstName(String firstName);
+
 }

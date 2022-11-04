@@ -1,40 +1,31 @@
 package com.example.university.domain;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
- * JPA Entity for a Department of study at the University.
- *
+ * Mongo Document for a Department of study at the University.
+ * <p>
  * Created by maryellenbowman
  */
-@Entity
-@Table(name="Department")
+@Document
 public class Department {
     @Id
-    @GeneratedValue
-    private Integer id;
+    private String id;
 
-    @Column
     private String name;
 
-    @OneToOne
     private Staff chair;
-
-    @OneToMany
-    private List<Course> courses = new ArrayList<>();
 
     public Department(String name, Staff chair) {
         this.name = name;
         this.chair = chair;
     }
 
-    protected Department() {
+    public Department() {
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
@@ -42,17 +33,6 @@ public class Department {
         return name;
     }
 
-    public void addCourse(Course course) {
-        courses.add(course);
-    }
-
-    public Staff getChair() {
-        return chair;
-    }
-
-    public List<Course> getCourses() {
-        return courses;
-    }
 
     public void setName(String name) {
         this.name = name;
@@ -62,29 +42,12 @@ public class Department {
         this.chair = chair;
     }
 
-    public void setCourses(List<Course> courses) {
-        this.courses = courses;
-    }
-
     @Override
     public String toString() {
         return "Department{" +
-                "chair=" + chair +
+                "id=" + id +
                 ", name='" + name + '\'' +
-                ", id=" + id +
+                ", chair=" + chair +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Department that = (Department) o;
-        return id.equals(that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
     }
 }

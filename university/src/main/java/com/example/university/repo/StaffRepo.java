@@ -9,7 +9,7 @@ import reactor.core.publisher.Flux;
  * <p>
  * Created by maryellenbowman.
  */
-public interface StaffRepo extends ReactiveCrudRepository<Staff, Integer> {
+public interface StaffRepo extends ReactiveCrudRepository<Staff, String> {
 
     Flux<Staff> findByMemberLastName(String lastName);
 }

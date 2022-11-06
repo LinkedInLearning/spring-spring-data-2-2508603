@@ -33,6 +33,9 @@ public class Department {
         return name;
     }
 
+    public Staff getChair() {
+        return chair;
+    }
 
     public void setName(String name) {
         this.name = name;

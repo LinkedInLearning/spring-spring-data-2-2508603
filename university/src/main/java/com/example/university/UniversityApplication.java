@@ -31,6 +31,24 @@ public class UniversityApplication implements CommandLineRunner {
     private DepartmentRepo departmentRepo;
     @Autowired
     private StaffRepo staffRepo;
+    public static void main(String[] args) {
+        SpringApplication.run(UniversityApplication.class, args);
+    }
+
+    @Override
+    public void run(String... strings) throws Exception {
+        Mono<Staff> deanJonesMono = staffRepo.save(new Staff( new Person("John", "Jones")));
+        Staff deanJones = deanJonesMono.block();
+        Mono<Staff> deanMartinMono = staffRepo.save(new Staff(new Person("John", "Martin")));
+        Staff deanMartin = deanMartinMono.block();
+        System.out.println("*************** Staff count = " + staffRepo.count().block());
+        Flux<Department> departmentFlux = departmentRepo.saveAll(
+                Arrays.asList(new Department("Humanities", deanJones),
+                        new Department("Natural Sciences", deanMartin),
+                        new Department("Social Sciences", deanJones)));
+        departmentFlux.subscribe();
+        System.out.println("*************** Departments = " + departmentRepo.count().block());
+    }
 
     @GetMapping("/staff")
     public Flux<Staff> getAllStaff() {
@@ -55,23 +73,5 @@ public class UniversityApplication implements CommandLineRunner {
     @GetMapping("/staff/search/member")
     public Flux<Staff> getStaffByLastName(@RequestParam("lastName") String lastName) {
         return staffRepo.findByMemberLastName(lastName);
-    }
-    public static void main(String[] args) {
-        SpringApplication.run(UniversityApplication.class, args);
-    }
-
-    @Override
-    public void run(String... strings) throws Exception {
-        Mono<Staff> deanJonesMono = staffRepo.save(new Staff( new Person("John", "Jones")));
-        Staff deanJones = deanJonesMono.block();
-        Mono<Staff> deanMartinMono = staffRepo.save(new Staff(new Person("John", "Martin")));
-        Staff deanMartin = deanMartinMono.block();
-        System.out.println("*************** Staff count = " + staffRepo.count().block());
-        Flux<Department> departmentFlux = departmentRepo.saveAll(
-                Arrays.asList(new Department("Humanities", deanJones),
-                        new Department("Natural Sciences", deanMartin),
-                        new Department("Social Sciences", deanJones)));
-        departmentFlux.subscribe();
-        System.out.println("*************** Departments = " + departmentRepo.count().block());
     }
 }

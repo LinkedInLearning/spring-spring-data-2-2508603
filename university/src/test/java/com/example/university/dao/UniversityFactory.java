@@ -14,7 +14,6 @@ class UniversityFactory {
 
     public static void fillUniversity(UniversityService service) {
         service.deleteAll();
-        System.out.println("Number of courses = " + service.findAllCourses().size());
         boolean fullTime = true;
         Student jane = service.createStudent("jane", "Doe", fullTime, 20);
         Student john = service.createStudent("john", "Doe", fullTime, 22);

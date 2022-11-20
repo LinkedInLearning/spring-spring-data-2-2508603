@@ -12,15 +12,21 @@ import java.util.Optional;
     List<Student> findByAttendeeLastName(String lastName);
 
     //Queries with clauses and expressions
-     Optional<Student> findTopByOrderByAgeDesc();
+    //findOldest
+    Optional<Student> findTopByOrderByAgeDesc();
 
+     //findByFirstAndLastName
      List<Student> findByAttendeeFirstNameAndAttendeeLastName(String firstName, String lastName);
 
+     //findByAgeLessThan
      List<Student> findByAgeLessThan(int age) ;
 
+     //findSimilarLastName
      List<Student> findByAttendeeLastNameLike(String nameCriteria);
 
+     //findFirstInAlphabet
      Optional<Student> findFirstByOrderByAttendeeLastNameAsc();
 
+     //find3Oldest
      List<Student> findTop3ByOrderByAgeDesc() ;
 }

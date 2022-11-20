@@ -12,27 +12,22 @@ import java.util.Optional;
     List<Student> findByAttendeeLastName(String lastName);
 
     //Queries with clauses and expressions
-     Optional<Student> findTopByOrderByAgeDesc();
+    //findOldest
+    Optional<Student> findTopByOrderByAgeDesc();
 
+     //findByFirstAndLastName
      List<Student> findByAttendeeFirstNameAndAttendeeLastName(String firstName, String lastName);
 
+     //findByAgeLessThan
      List<Student> findByAgeLessThan(int age) ;
 
+     //findSimilarLastName
      List<Student> findByAttendeeLastNameLike(String nameCriteria);
 
+     //findFirstInAlphabet
      Optional<Student> findFirstByOrderByAttendeeLastNameAsc();
 
+     //find3Oldest
      List<Student> findTop3ByOrderByAgeDesc() ;
 
-     /**
-      * Copy/paste bank for Native queries
-      findOldest() naitve
-      SELECT * FROM student s ORDER BY s.age DESC LIMIT 1
-
-      findFirstInAlphabet
-      SELECT * FROM STUDENT s ORDER BY s.Last_Name ASC LIMIT
-
-      find3Oldest
-      SELECT * FROM STUDENT s ORDER BY s.age DESC LIMIT 3
-      **/
  }

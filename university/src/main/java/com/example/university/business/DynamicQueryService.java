@@ -24,7 +24,7 @@ public class DynamicQueryService {
         return courseRepo.findAll(filter.getSpecification());
     }
 
-    public List<Course> findByQueryDsl(CourseFilter filter){
+    public List<Course> findByQueryDsl(CourseFilter filter) {
         List<Course> courses = new ArrayList<>();
         queryDslRepo
                 .findAll(filter.getQueryDslPredicate())
@@ -33,7 +33,4 @@ public class DynamicQueryService {
         return courses;
     }
 
-    public List<Course> findByExample(CourseFilter filter){
-        return courseRepo.findAll(filter.getExampleProbe());
-    }
 }

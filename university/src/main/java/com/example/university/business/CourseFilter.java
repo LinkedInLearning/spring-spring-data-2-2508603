@@ -72,7 +72,7 @@ public class CourseFilter {
         instructor.ifPresent(i -> predicate.and(course.instructor.eq(i)));
         return predicate;
     }
-
+/*
     public Example<Course> getExampleProbe(){
         Course course = new Course(null,
                 credits.orElse(null),
@@ -80,4 +80,6 @@ public class CourseFilter {
                 department.orElse(null));
         return Example.of(course);
     }
+
+ */
 }

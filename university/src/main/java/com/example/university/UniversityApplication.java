@@ -6,7 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * Configuration Class for the University library
+ * Spring Boot MongoDb Application
  */
 @SpringBootApplication
 public class UniversityApplication implements CommandLineRunner {

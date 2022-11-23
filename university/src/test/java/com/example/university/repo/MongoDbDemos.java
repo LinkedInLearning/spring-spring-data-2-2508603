@@ -29,6 +29,15 @@ public class MongoDbDemos {
 	@Autowired
     DepartmentRepo departmentRepo;
 
+	//Helper Methods
+    private Staff createStaff(String firstName, String lastName) {
+        return staffRepo.save(new Staff(new Person(firstName, lastName)));
+    }
+    private Department createDepartment(String deptname, Staff deptChair) {
+        return departmentRepo.findByName(deptname)
+                .orElse(departmentRepo.save(new Department(deptname, deptChair)));
+    }
+
      /**
      * Queries to Mongo DB.
      *
@@ -94,17 +103,5 @@ public class MongoDbDemos {
         departmentRepo.findByChairId(deanJones.getId()).forEach(System.out::println);
     }
 
-    public Staff createStaff(String firstName, String lastName) {
-        return staffRepo.save(new Staff(new Person(firstName, lastName)));
-    }
-    public Department createDepartment(String deptname, Staff deptChair) {
-        return departmentRepo.findByName(deptname)
-                .orElse(departmentRepo.save(new Department(deptname, deptChair)));
-    }
 
-    private void fillUniversity() {
-        //Staff
-
-
-    }
 }

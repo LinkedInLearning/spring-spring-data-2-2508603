@@ -11,6 +11,6 @@ import java.util.List;
 public interface StaffRepo extends JpaRepository<Staff, Integer> {
 
     @Query("SELECT s FROM Staff s WHERE s.member.lastName = :lastName")
-    List<Staff> findByLastName(@Param("lastName") String lastName, Pageable pageableß);
+    List<Staff> findByLastName(@Param("lastName") String lastName, Pageable pageable);
 
 }

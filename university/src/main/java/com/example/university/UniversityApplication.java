@@ -70,7 +70,7 @@ public class UniversityApplication implements CommandLineRunner {
         return departmentRepo.findById(id);
     }
 
-    @GetMapping("/staff/search/member")
+    @GetMapping("/staff/search/member/{lastName}")
     public Flux<Staff> getStaffByLastName(@PathVariable("lastName") String lastName) {
         return staffRepo.findByMemberLastName(lastName);
     }

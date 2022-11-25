@@ -38,16 +38,16 @@ public class UniversityApplication implements CommandLineRunner {
     @Override
     public void run(String... strings) throws Exception {
         Mono<Staff> deanJonesMono = staffRepo.save(new Staff( new Person("John", "Jones")));
-        Staff deanJones = deanJonesMono.block();
         Mono<Staff> deanMartinMono = staffRepo.save(new Staff(new Person("John", "Martin")));
+        System.out.println("Staff count = " + staffRepo.count().block());
+        Staff deanJones = deanJonesMono.block();
         Staff deanMartin = deanMartinMono.block();
-        System.out.println("*************** Staff count = " + staffRepo.count().block());
+        System.out.println("blocked(): Staff count = " + staffRepo.count().block());
         Flux<Department> departmentFlux = departmentRepo.saveAll(
                 Arrays.asList(new Department("Humanities", deanJones),
                         new Department("Natural Sciences", deanMartin),
                         new Department("Social Sciences", deanJones)));
         departmentFlux.subscribe();
-        System.out.println("*************** Departments = " + departmentRepo.count().block());
     }
 
     @GetMapping("/staff")

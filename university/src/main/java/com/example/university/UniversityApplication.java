@@ -71,7 +71,7 @@ public class UniversityApplication implements CommandLineRunner {
     }
 
     @GetMapping("/staff/search/member")
-    public Flux<Staff> getStaffByLastName(@RequestParam("lastName") String lastName) {
+    public Flux<Staff> getStaffByLastName(@PathVariable("lastName") String lastName) {
         return staffRepo.findByMemberLastName(lastName);
     }
 }

@@ -36,9 +36,8 @@ public class CriteriaQueryTest {
     void findByCriteria() {
         UniversityFactory.fillUniversity(universityService);
         Department humanities = departmentRepo
-                .findAll(Example.of(new Department("Humanities",null),
-                        matching().withIgnoreCase()
-                )).stream().findFirst().get();
+                .findOne(Example.of(new Department("Humanities",null),
+                        matching().withIgnoreCase())).get();
         Staff professorBlack = staffRepo
                 .findAll(Example.of(new Staff(new Person(null,"Black")),
                         matching().withIgnoreCase()
